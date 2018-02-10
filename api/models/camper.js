@@ -106,6 +106,10 @@ var CamperSchema = new Schema({
   mother_contactno: {
     type: String,
     required: 'This field is required!'
+  },
+  paid: {
+    type: Boolean,
+    default: false
   }
   //  relationships: [ObjectId]
 });

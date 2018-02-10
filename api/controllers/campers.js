@@ -32,6 +32,13 @@ exports.update_a_camper = function(req, res) {
   })
 }
 
+exports.set_payment_true = function(req, res) {
+  Camper.findOneAndUpdate({_id: req.params.camperId}, { $set: { set_payment_true: true }}, {new: true}, function(err, camper) {
+    if (err) res.send(err)
+    res.json(camper)
+  })
+}
+
 exports.delete_a_camper = function(req, res) {
   Camper.remove({_id: req.params.camperId}, function(err, camper) {
     if (err) res.send(err)
