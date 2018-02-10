@@ -5,6 +5,7 @@ var express = require('express'),
     mongo_port = process.env.MONGO_PORT_27017_TCP_PORT,
     mongoose = require('mongoose'),
     Person = require('./api/models/person'),
+    Camper = require('./api/models/camper'),
     Meetup = require('./api/models/meetup'),
     bodyParser = require('body-parser'),
     cors = require('cors');
