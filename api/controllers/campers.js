@@ -1,7 +1,8 @@
 'use strict';
 var mongoose = require('mongoose'),
     Camper = mongoose.model('Camper'),
-    DiscipleshipMeetup = mongoose.model('DiscipleshipMeetup')
+    DiscipleshipMeetup = mongoose.model('DiscipleshipMeetup'),
+    qrAdapter = require('../../qrAdapter/generator')
 
 exports.get_all_campers = function(req, res) {
   Camper.find({}).sort({first_name: 1, last_name: 1}).exec(function(err, camper) {
@@ -14,7 +15,13 @@ exports.add_a_campers = function(req, res) {
   var new_camper = new Camper(req.body);
   new_camper.save(function(err, camper) {
     if (err) res.send(err)
-    res.json(camper)
+    qrAdapter.generateQR(camper._id).then(function (res) {
+      res.json(camper);
+    }).catch(function (err) {
+      console.log(err)
+      res.send(err)
+    })
+    
   })
 }
 
