@@ -17,9 +17,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var people = require('./api/routes/people')
+var campers = require('./api/routes/campers')
 var meetups = require('./api/routes/meetups')
 var reports = require('./api/routes/reports')
 app.use('/people', people)
+app.use('/campers', campers)
 app.use('/meetups', meetups)
 app.use('/reports', reports)
 
