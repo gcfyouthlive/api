@@ -80,7 +80,7 @@ var CamperSchema = new Schema({
   medications: {
     type: String
   },
-  note: {
+  notes: {
     type: String
   },
   father_name: {
