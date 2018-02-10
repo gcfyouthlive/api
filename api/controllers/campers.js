@@ -33,7 +33,7 @@ exports.update_a_camper = function(req, res) {
 }
 
 exports.set_payment_true = function(req, res) {
-  Camper.findOneAndUpdate({_id: req.params.camperId}, { $set: { set_payment_true: true }}, {new: true}, function(err, camper) {
+  Camper.findOneAndUpdate({_id: req.params.camperId}, { $set: { paid: true }}, {new: true}, function(err, camper) {
     if (err) res.send(err)
     res.json(camper)
   })
