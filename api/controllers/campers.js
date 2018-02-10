@@ -15,10 +15,9 @@ exports.add_a_campers = function(req, res) {
   var new_camper = new Camper(req.body);
   new_camper.save(function(err, camper) {
     if (err) res.send(err)
-    qrAdapter.generateQR(camper._id).then(function (res) {
+    qrAdapter.generateQR(camper._id).then(function (res2) {
       res.json(camper);
     }).catch(function (err) {
-      console.log(err)
       res.send(err)
     })
     
