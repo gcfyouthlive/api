@@ -31,11 +31,9 @@ module.exports = {
           }
         ]
       };
-      console.log('mail',mailOptions)
       if (mailOptions == null) {
         throw new Error('File not found. Please try again.');
       } else {
-        console.log('actualsend')
         transporter.sendMail(mailOptions, (error, info) => {
           if (error) {
             throw error;

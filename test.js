@@ -8,7 +8,6 @@ generator.generateQR('12345').then((res) => {
     text: 'Thank you for registering!',
     filepath: './QR/qr_12345.pdf'
   }
-  console.log('sending');
   emailer.sendEmail(params);
 }).catch((err) => 
   console.log('fail', err)
