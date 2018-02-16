@@ -3,6 +3,7 @@ var http = require('http')
   , options
   , config = require('./config')
   , Q = require('q')
+  , PDFDocument = require('pdfkit') //documentation: http://pdfkit.org/index.html
 
 module.exports = {
   generateQR: function (camperID) {
@@ -21,13 +22,41 @@ module.exports = {
 
       res.on('end', function () {
         var dir = config.dir;
-
+        var doc = new PDFDocument;
         if (!fs.existsSync(dir)) {
           fs.mkdirSync(dir);
         }
-        fs.writeFile(dir + '/qr_' + camperID + '.png', imagedata, 'binary', function (err) {
+
+
+        //fs.writeFile(dir + '/qr_' + camperID + '.pdf', 'test', function (err){
+        //if (err) throw err
+        //console.log(imagedata)
+        var directory = dir + '/qr_' + camperID + '.png'
+        fs.writeFile(directory, imagedata, 'binary', function (err) {
           if (err) throw err
-          defer.resolve({ status_code: 200, message: 'QR Created' })
+          doc.pipe(fs.createWriteStream(dir + '/qr_' + camperID + '.pdf'))
+          doc.image(directory,
+            200, //x-position
+            40, //y-position
+            {
+              width: 100,
+              height: 100
+            })
+            .text('My Text is here'
+              , 200
+              , 30)
+          doc.end()
+          //Workaround for now, defer.resolve doesn't wait for doc.end() before resolving.
+          setTimeout(() => {
+            defer.resolve(
+              {
+                status_code: 200
+                , message: 'QR Created'
+                , filepath: dir + '/qr_' + camperID + '.pdf'
+              }
+            )
+          }, 1000)
+          
         })
       })
     })
