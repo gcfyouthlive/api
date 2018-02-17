@@ -5,6 +5,7 @@ var express = require('express'),
     mongo_port = process.env.MONGO_PORT_27017_TCP_PORT,
     mongoose = require('mongoose'),
     Person = require('./api/models/person'),
+    Camper = require('./api/models/camper'),
     Meetup = require('./api/models/meetup'),
     bodyParser = require('body-parser'),
     cors = require('cors');
@@ -17,9 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 var people = require('./api/routes/people')
+var campers = require('./api/routes/campers')
 var meetups = require('./api/routes/meetups')
 var reports = require('./api/routes/reports')
 app.use('/people', people)
+app.use('/campers', campers)
 app.use('/meetups', meetups)
 app.use('/reports', reports)
 
