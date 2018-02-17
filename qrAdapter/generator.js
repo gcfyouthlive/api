@@ -9,7 +9,7 @@ module.exports = {
   generateQR: function (camperID) {
     var options = {
       host: config.url
-      , path: '/v1/create-qr-code/?size=250x250&data=https://35.227.77.30/api/campers/' + camperID + '/validation'
+      , path: '/v1/create-qr-code/?size=250x250&data=https://api.gcfyouthlive.com/campers/' + camperID + '/validation'
     }
     var defer = Q.defer()
     var request = http.get(options, function (res) {
