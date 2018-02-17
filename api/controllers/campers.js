@@ -2,7 +2,8 @@
 var mongoose = require('mongoose'),
     Camper = mongoose.model('Camper'),
     DiscipleshipMeetup = mongoose.model('DiscipleshipMeetup'),
-    qrAdapter = require('../../qrAdapter/generator')
+    qrAdapter = require('../../qrAdapter/generator'),
+    emailAdapter = require('../../emailAdapter/emailer')
 
 exports.get_all_campers = function(req, res) {
   Camper.find({}).sort({first_name: 1, last_name: 1}).exec(function(err, camper) {
@@ -16,6 +17,13 @@ exports.add_a_campers = function(req, res) {
   new_camper.save(function(err, camper) {
     if (err) res.send(err)
     qrAdapter.generateQR(camper._id).then(function (res2) {
+      var emailParams = {
+        recipient: camper.email,
+        subject: 'Thank you for registering for camp!',
+        text: 'Thank you for registering! Insert mock text here.',
+        filepath: res2.filepath
+      }
+      emailAdapter.sendEmail(params);
       res.json(camper);
     }).catch(function (err) {
       res.send(err)
