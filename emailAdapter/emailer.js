@@ -25,7 +25,7 @@ module.exports = {
         text: emailDetails.text, // plain text body
         attachments: [ // attachments
           {
-            filename: 'qr_12345.pdf',
+            filename: 'Camp_Parental_Consent_Form.pdf',
             content: data,
             contentType: 'application/pdf'
           }
