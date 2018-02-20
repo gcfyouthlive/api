@@ -1,5 +1,5 @@
 var nodemailer = require('nodemailer')
-  , config = require('./credentials.json')
+  // , config = require('../config/credentials.json')
   , fs = require('fs')
 // Generate test SMTP service account from ethereal.email
 // Only needed if you don't have a real mail account for testing
@@ -38,9 +38,9 @@ module.exports = {
           if (error) {
             throw error;
           }
-          return { 
+          return {
             status_code: 200
-            , message: 'Email Sent!' 
+            , message: 'Email Sent!'
           };
         });
       }
