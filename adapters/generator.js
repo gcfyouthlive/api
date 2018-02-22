@@ -1,33 +1,40 @@
-var http = require('http')
+var Q = require('q')
   , fs = require('fs')
   , qr = require('qr-image')
   , pdf = require('html-pdf')
-  , PDFDocument = require('pdfkit') //documentation: http://pdfkit.org/index.html
-
-
-exports.generateQR = function(camper_id) {
-  var qr_svg = qr.image('https://api.gcfyouthlive.com/campers/' + camper_id + '/validation', {type: 'svg'});
-  qr_svg.pipe(require('fs').createWriteStream('i_love_qr.svg'));
-}
 
 exports.generatePDF = function(camper) {
-  var header = "Permission / Agreement Form";
-  var legal = "As parents / legal guardian of the named participant (Participant),";
-  var consent = "I understand and recognize that there may be inherent risks involved in the activities of CAMP LIVE: VERIFIED (High School Camp) held under the auspices of Greenhills Christian Fellowship (GCF), from May 31-June 3, 2017, at Batangas Country Club, and I hereby release, discharge, and hold harmless GCF, its camp organizers, volunteers, employees, contractors or subcontractors (Organizers), including the officers or trustees of GCF, from any and all liability for injuries, including those that may result in death, and/or illnesses incurred while participating or attending in said Camp. I also give my expressed consent to the Organizers to transport said Participant to and from the Camp venue in church- owned or leased vehicles, and hold GCF and/or the Organizers free from any liability for any injury to or damage to the person of the Participant or to his/her belongings during travel.";
-  var medical = 'Moreover, in the event that I am not immediately available, should the Participant suffer a serious or life-threatening injury for which emergency medical treatment may be necessary, I hereby authorize the Organizers to engage qualified medical personnel to initiate any necessary medical treatment or care, and that they will use all reasonable efforts to notify me, where practical, and I hereby give permission to any such physician or other medical personnel to provide such medical treatment as deemed medically appropriate.'
-  var disclaimer = "In compliance with the insurance company’s requirements, we kindly ask you to fill out your parents’ names and birthdates below.";
-  var signing = "By signing this document, the parent or legal guardian confirms that he or she has authority to sign, has read the entire document, and has understanding that the document waives certain rights as above indicated.";
+  var defer = Q.defer();
 
   var options = {
     "format": 'Letter',
     "border": "0.5in",
   };
 
-  var html = fs.readFileSync('/app/assets/pdf.html', 'utf8');
-  pdf.create(html, options).toFile('./test.pdf', function(err, res) {
+  // Create QR with hyperlink to validation link and save in qr/ folder
+  var qr_svg = qr.image('https://api.gcfyouthlive.com/campers/' + camper._id + '/validation', {type: 'svg'});
+  qr_svg.pipe(require('fs').createWriteStream('qr/'+camper._id+'.svg'));
+
+  // Read pdf.html from assets and replace fields with camper details
+  var html = fs.readFileSync('/app/assets/pdf.html', 'utf8')
+  html = html.replace(/CAMPER_ID/g, camper._id);
+  html = html.replace(/FIRST_NAME/g, camper.first_name);
+  html = html.replace(/LAST_NAME/g, camper.last_name);
+
+  // Create pdf
+  pdf.create(html, options).toFile('pdf/'+camper._id+'.pdf', function(err, res) {
     if (err) return console.log(err);
-    console.log(res); // { filename: '/app/businesscard.pdf' }
+    console.log(res);
+    defer.resolve(
+      {
+        status_code: 200,
+        message: 'PDF Created',
+        filepath: res.filename
+      }
+    )
   });
+
+  return defer.promise;
 }
 
 // module.exports = {

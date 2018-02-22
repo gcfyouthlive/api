@@ -17,21 +17,21 @@ exports.add_a_camper = function(req, res) {
   new_camper.save(function(err, camper) {
     if (err) res.send(err)
     else {
-      generator.generatePDF(camper._id);
+      generator.generatePDF(camper).then(function (res) {
+        var emailParams = {
+          recipient: camper.email,
+          subject: 'Thank you for registering for camp!',
+          text: 'Thank you for registering! Insert mock text here.',
+          filepath: res.filepath
+        }
+        console.log(emailParams);
+        emailAdapater.sendEmail(params);
+        res.json(camper);
+      }).catch(function (err) {
+        res.send(err);
+      });
       res.json(camper);
     }
-    // qrAdapter.generateQR(camper._id).then(function (res2) {
-    //   var emailParams = {
-    //     recipient: camper.email,
-    //     subject: 'Thank you for registering for camp!',
-    //     text: 'Thank you for registering! Insert mock text here.',
-    //     filepath: res2.filepath
-    //   }
-    //   emailAdapter.sendEmail(params);
-    //   res.json(camper);
-    // }).catch(function (err) {
-    //   res.send(err)
-    // })
   })
 }
 
