@@ -20,23 +20,10 @@ exports.generatePDF = function(camper) {
 
   var options = {
     "format": 'Letter',
-    "border": "1in"
+    "border": "0.5in",
   };
 
-  var html = '<html>'
-            + '<head><style>'
-            + '@font-face { font-family: "Open Sans"; src("/app/assets/fonts/OpenSans-Regular.ttf")} '
-            + 'html,body {font-family: "Open Sans"; font-size:10px; text-align: justify} '
-            + 'p {padding-bottom: 7px}'
-            + '</style></head>'
-            + '<body>'
-            + '<p style="text-align:center; font-weight: bold">'+header+'</p>'
-            + '<p>'+legal+'</p>'
-            + '<p>'+consent+'</p>'
-            + '<p>'+medical+'</p>'
-            + '<p>'+disclaimer+'</p>'
-            + '<p>'+signing+'</p>'
-            + '</body>';
+  var html = fs.readFileSync('/app/assets/pdf.html', 'utf8');
   pdf.create(html, options).toFile('./test.pdf', function(err, res) {
     if (err) return console.log(err);
     console.log(res); // { filename: '/app/businesscard.pdf' }
