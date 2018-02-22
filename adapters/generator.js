@@ -1,13 +1,46 @@
 var http = require('http')
   , fs = require('fs')
   , qr = require('qr-image')
-  , options
-  , config = require('../config/config.json')
+  , pdf = require('html-pdf')
   , PDFDocument = require('pdfkit') //documentation: http://pdfkit.org/index.html
+
 
 exports.generateQR = function(camper_id) {
   var qr_svg = qr.image('https://api.gcfyouthlive.com/campers/' + camper_id + '/validation', {type: 'svg'});
   qr_svg.pipe(require('fs').createWriteStream('i_love_qr.svg'));
+}
+
+exports.generatePDF = function(camper) {
+  var header = "Permission / Agreement Form";
+  var legal = "As parents / legal guardian of the named participant (Participant),";
+  var consent = "I understand and recognize that there may be inherent risks involved in the activities of CAMP LIVE: VERIFIED (High School Camp) held under the auspices of Greenhills Christian Fellowship (GCF), from May 31-June 3, 2017, at Batangas Country Club, and I hereby release, discharge, and hold harmless GCF, its camp organizers, volunteers, employees, contractors or subcontractors (Organizers), including the officers or trustees of GCF, from any and all liability for injuries, including those that may result in death, and/or illnesses incurred while participating or attending in said Camp. I also give my expressed consent to the Organizers to transport said Participant to and from the Camp venue in church- owned or leased vehicles, and hold GCF and/or the Organizers free from any liability for any injury to or damage to the person of the Participant or to his/her belongings during travel.";
+  var medical = 'Moreover, in the event that I am not immediately available, should the Participant suffer a serious or life-threatening injury for which emergency medical treatment may be necessary, I hereby authorize the Organizers to engage qualified medical personnel to initiate any necessary medical treatment or care, and that they will use all reasonable efforts to notify me, where practical, and I hereby give permission to any such physician or other medical personnel to provide such medical treatment as deemed medically appropriate.'
+  var disclaimer = "In compliance with the insurance company’s requirements, we kindly ask you to fill out your parents’ names and birthdates below.";
+  var signing = "By signing this document, the parent or legal guardian confirms that he or she has authority to sign, has read the entire document, and has understanding that the document waives certain rights as above indicated.";
+
+  var options = {
+    "format": 'Letter',
+    "border": "1in"
+  };
+
+  var html = '<html>'
+            + '<head><style>'
+            + '@font-face { font-family: "Open Sans"; src("/app/assets/fonts/OpenSans-Regular.ttf")} '
+            + 'html,body {font-family: "Open Sans"; font-size:10px; text-align: justify} '
+            + 'p {padding-bottom: 7px}'
+            + '</style></head>'
+            + '<body>'
+            + '<p style="text-align:center; font-weight: bold">'+header+'</p>'
+            + '<p>'+legal+'</p>'
+            + '<p>'+consent+'</p>'
+            + '<p>'+medical+'</p>'
+            + '<p>'+disclaimer+'</p>'
+            + '<p>'+signing+'</p>'
+            + '</body>';
+  pdf.create(html, options).toFile('./test.pdf', function(err, res) {
+    if (err) return console.log(err);
+    console.log(res); // { filename: '/app/businesscard.pdf' }
+  });
 }
 
 // module.exports = {

@@ -2,7 +2,7 @@
 var mongoose = require('mongoose'),
     Camper = mongoose.model('Camper'),
     DiscipleshipMeetup = mongoose.model('DiscipleshipMeetup'),
-    qrAdapter = require('../../adapters/generator'),
+    generator = require('../../adapters/generator'),
     emailAdapter = require('../../adapters/emailer')
 
 exports.get_all_campers = function(req, res) {
@@ -17,7 +17,7 @@ exports.add_a_camper = function(req, res) {
   new_camper.save(function(err, camper) {
     if (err) res.send(err)
     else {
-      qrAdapter.generateQR(camper._id);
+      generator.generatePDF(camper._id);
       res.json(camper);
     }
     // qrAdapter.generateQR(camper._id).then(function (res2) {
