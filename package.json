@@ -15,9 +15,11 @@
   "dependencies": {
     "cors": "^2.8.4",
     "express": "^4.16.2",
+    "html-pdf": "^2.2.0",
     "mongoose": "^4.13.7",
     "nodemailer": "^4.4.2",
     "pdfkit": "^0.8.3",
-    "q": "^1.5.1"
+    "q": "^1.5.1",
+    "qr-image": "^3.2.0"
   }
 }
