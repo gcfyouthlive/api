@@ -12,7 +12,6 @@ exports.sendEmail = function (emailDetails) {
       pass: config.pass  // generated ethereal password
     }
   });
-  console.log('email', emailDetails)
   // setup email data with unicode symbols
   var mailOptions
   fs.readFile(emailDetails.filepath, function (err, data) {
