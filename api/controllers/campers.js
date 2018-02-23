@@ -17,20 +17,22 @@ exports.add_a_camper = function(req, res) {
   new_camper.save(function(err, camper) {
     if (err) res.send(err)
     else {
-      generator.generatePDF(camper).then(function (res) {
+      generator.generatePDF(camper).then(function (campRes) {
         var emailParams = {
           recipient: camper.email,
-          subject: 'Thank you for registering for camp!',
-          text: 'Thank you for registering! Insert mock text here.',
-          filepath: res.filepath
+          subject: 'Your registration to CampLIVE: VERIFIED', //TBD: Perhaps make it Your registration to CampLIVE: VERIFIED is almost complete!
+          text: 'Hello, ' + camper.nickname + ' ' + camper.last_name + '!!  \n\nThank you for signing up for CAMP LIVE: VERIFIED (High School Camp)! There are a few more steps to complete your registration for camp. Please print the waiver attached to this email and have your parent/legal guardian sign it. This is a requirement to participate in camp. You can submit your signed waiver at our booth at the GCF lobby along with your camp payment. \n\nOur booth is open on Saturdays at the Youth Service and Sundays in between Sundary Services. Early bird - P2,000 until April 29, 2018 Regular - P2,500 until May 13, 2018. Take note that payment must be made to secure your slot in camp. \n\nIf you have any questions about the registration process, you may reply to this email or contact us at 09175327741. \n\nSee you soon! :)',
+          filepath: campRes.filepath
         }
-        console.log(emailParams);
-        emailAdapater.sendEmail(params);
+        emailAdapter.sendEmail(emailParams);
         res.json(camper);
       }).catch(function (err) {
-        res.send(err);
+        var out = {
+          status:500,
+          payload:''+err
+        }
+        res.status(500).send(out);
       });
-      res.json(camper);
     }
   })
 }

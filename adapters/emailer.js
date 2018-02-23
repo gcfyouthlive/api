@@ -12,13 +12,12 @@ exports.sendEmail = function (emailDetails) {
       pass: config.pass  // generated ethereal password
     }
   });
-  console.log('email', emailDetails)
   // setup email data with unicode symbols
   var mailOptions
   fs.readFile(emailDetails.filepath, function (err, data) {
     if (err) throw err;
     mailOptions = {
-      from: 'GCFYouthLive', // sender address
+      from: {"name": config.name, address:config.user}, // sender address
       to: emailDetails.recipient, // list of receivers
       subject: emailDetails.subject, // Subject line
       text: emailDetails.text, // plain text body
