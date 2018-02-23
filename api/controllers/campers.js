@@ -20,7 +20,7 @@ exports.add_a_camper = function(req, res) {
       generator.generatePDF(camper).then(function (res) {
         var emailParams = {
           recipient: camper.email,
-          subject: 'Thank you for registering for camp!',
+          subject: 'Hello, ' + camper.nickname + ' ' + camper.last_name + '!! <br><br>Thank you for signing up for <b>CAMP LIVE: VERIFIED (High School Camp)!</b> <br><br>There are a few more steps to complete your registration for camp. <br><br>Please print the waiver attached to this email and have your parent/legal guardian sign it. This is a requirement to participate in camp. <br><br>You can submit your signed waiver at our booth at the GCF lobby along with your camp payment. Our booth is open on Saturdays at the Youth Service and Sundays in between Sundary Services. <br> Early bird - P2,000 until April 29, 2018 <br> Regular - P2,500 until May 13, 2018. <br><br>Take note that payment must be made to secure your slot in camp. If you have any questions about the registration process, you may reply to this email or contact us at 09175327741. <br><br> See you soon! :)',
           text: 'Thank you for registering! Insert mock text here.',
           filepath: res.filepath
         }
