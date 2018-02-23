@@ -17,7 +17,7 @@ exports.sendEmail = function (emailDetails) {
   fs.readFile(emailDetails.filepath, function (err, data) {
     if (err) throw err;
     mailOptions = {
-      from: 'GCFYouthLive', // sender address
+      from: {"name": config.name, address:config.user}, // sender address
       to: emailDetails.recipient, // list of receivers
       subject: emailDetails.subject, // Subject line
       text: emailDetails.text, // plain text body
