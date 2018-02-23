@@ -11,12 +11,18 @@ exports.generatePDF = function(camper) {
     "border": "0.5in",
   };
 
+  var dir = '../qr';
+
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  };
+
   // Create QR with hyperlink to validation link and save in qr/ folder
   var qr_svg = qr.image('https://api.gcfyouthlive.com/campers/' + camper._id + '/validation', {type: 'svg'});
-  qr_svg.pipe(require('fs').createWriteStream('qr/'+camper._id+'.svg'));
+  qr_svg.pipe(fs.createWriteStream(dir+camper._id+'.svg'));
 
   // Read pdf.html from assets and replace fields with camper details
-  var html = fs.readFileSync('/app/assets/pdf.html', 'utf8')
+  var html = fs.readFileSync('assets/pdf.html', 'utf8')
   html = html.replace(/CAMPER_ID/g, camper._id);
   html = html.replace(/FIRST_NAME/g, camper.first_name);
   html = html.replace(/LAST_NAME/g, camper.last_name);

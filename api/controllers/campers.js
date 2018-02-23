@@ -24,8 +24,8 @@ exports.add_a_camper = function(req, res) {
           text: 'Thank you for registering! Insert mock text here.',
           filepath: res.filepath
         }
-        console.log(emailParams);
-        emailAdapater.sendEmail(params);
+        console.log('email', emailParams);
+        emailAdapter.sendEmail(emailParams);
         res.json(camper);
       }).catch(function (err) {
         res.send(err);
