@@ -11,15 +11,19 @@ exports.generatePDF = function(camper) {
     "border": "0.5in",
   };
 
-  var dir = '../qr';
+  var qr_dir = 'qr/';
+  if (!fs.existsSync(qr_dir)) {
+    fs.mkdirSync(qr_dir);
+  };
 
-  if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir);
+  var pdf_dir = 'pdf/';
+  if (!fs.existsSync(pdf_dir)) {
+    fs.mkdirSync(pdf_dir);
   };
 
   // Create QR with hyperlink to validation link and save in qr/ folder
   var qr_svg = qr.image('https://api.gcfyouthlive.com/campers/' + camper._id + '/validation', {type: 'svg'});
-  qr_svg.pipe(fs.createWriteStream(dir+camper._id+'.svg'));
+  qr_svg.pipe(fs.createWriteStream(qr_dir+camper._id+'.svg'));
 
   // Read pdf.html from assets and replace fields with camper details
   var html = fs.readFileSync('assets/pdf.html', 'utf8')
@@ -28,7 +32,7 @@ exports.generatePDF = function(camper) {
   html = html.replace(/LAST_NAME/g, camper.last_name);
 
   // Create pdf
-  pdf.create(html, options).toFile('pdf/'+camper._id+'.pdf', function(err, res) {
+  pdf.create(html, options).toFile(pdf_dir+camper._id+'.pdf', function(err, res) {
     if (err) return console.log(err);
     console.log(res);
     defer.resolve(
