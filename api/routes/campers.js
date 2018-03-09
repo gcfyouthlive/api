@@ -20,16 +20,15 @@ router.use(function timeLog(req, res, next) {
 });
 
 // Middleware
-router.use(isAuthenticated);
 
 router.route('/')
-  .get(campers.get_all_campers)
+  .get(isAuthenticated, campers.get_all_campers)
   .post(campers.add_a_camper);
 router.route('/:camperId')
-  .get(campers.view_a_camper)
-  .put(campers.update_a_camper)
-  .delete(campers.delete_a_camper);
+  .get(isAuthenticated, campers.view_a_camper)
+  .put(isAuthenticated, campers.update_a_camper)
+  .delete(isAuthenticated, campers.delete_a_camper);
 router.route('/:camperId/validation')
-  .get(campers.set_payment_true);
+  .get(isAuthenticated, campers.set_payment_true);
 
 module.exports = router;
