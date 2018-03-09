@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || "3000";
 const mongo_addr = process.env.MONGO_PORT_27017_TCP_ADDR || "127.0.0.1";
 const mongo_port = process.env.MONGO_PORT_27017_TCP_PORT || "27017";
+const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const Person = require('./api/models/person');
 const Camper = require('./api/models/camper');
@@ -18,6 +19,13 @@ const people = require('./api/routes/people')
 const campers = require('./api/routes/campers')
 const meetups = require('./api/routes/meetups')
 const reports = require('./api/routes/reports')
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+app.use(bodyParser.json());
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://' + mongo_addr + ':' + mongo_port + '/youthlivedb', () => {
