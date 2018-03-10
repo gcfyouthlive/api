@@ -3,7 +3,8 @@ var mongoose = require('mongoose'),
     Camper = mongoose.model('Camper'),
     DiscipleshipMeetup = mongoose.model('DiscipleshipMeetup'),
     generator = require('../../adapters/generator'),
-    emailAdapter = require('../../adapters/emailer')
+    emailAdapter = require('../../adapters/emailer');
+const request = require('request');
 
 exports.get_all_campers = function(req, res) {
   Camper.find({}).sort({first_name: 1, last_name: 1}).exec(function(err, camper) {
@@ -33,6 +34,31 @@ exports.add_a_camper = function(req, res) {
         }
         res.status(500).send(out);
       });
+
+      var data_str = "";
+      data_str += "<b>" + "Name: " + "</b>" + camper.first_name + " " + camper.last_name + "<br>";
+      data_str += "<b>" + "Nickname: " + "</b>" + camper.nickname + "<br>";
+      data_str += "<b>" + "Email: " + "</b>" + camper.email + "<br>";
+      data_str += "<b>" + "Gender: " + "</b>" + camper.gender + "<br>";
+      data_str += "<b>" + "Mobile no: " + "</b>" + camper.mobileno + "<br>";
+      data_str += "<b>" + "School: " + "</b>" + camper.school + "<br>";
+      data_str += "<b>" + "Year: " + "</b>" + camper.year + "<br>";
+      data_str += "<b>" + "Facebook ID: " + "</b>" + camper.facebook_id + "<br>";
+      data_str += "<b>" + "Notes: " + "</b>" + camper.notes + "<br>";
+
+      var options = {
+        url: 'https://hooks.slack.com/services/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',
+        method: 'POST',
+        headers: {
+          'Content-Type':     'application/json'
+        },
+        form: {'text': data_str}
+      };
+      request(options, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+          console.log(body)
+        }
+      })
     }
   })
 }
