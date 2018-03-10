@@ -110,6 +110,9 @@ var CamperSchema = new Schema({
   paid: {
     type: Boolean,
     default: false
+  },
+  camp: {
+    type: String
   }
   //  relationships: [ObjectId]
 });
