@@ -6,6 +6,7 @@ var credentials = require('../../config/credentials.json');
 const isAuthenticated = (req, res, next) => {
   if (!req.isAuthenticated()) {
     // if user is not logged in
+    req.session.lastUrl = req.originalUrl;
     res.redirect('/auth/login');
   } else {
     console.log(credentials.AUTHORIZED_IDS.indexOf(req.user.googleId));
