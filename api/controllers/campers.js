@@ -40,6 +40,7 @@ exports.add_a_camper = function(req, res) {
       data_str += "Nickname: " + camper.nickname + "\n";
       data_str += "Email: " + camper.email + "\n";
       data_str += "Gender: " + camper.gender + "\n";
+      data_str += "Birthdate: " + camper.birthdate + "\n";
       data_str += "Mobile no: " + camper.mobileno + "\n";
       data_str += "School: " + camper.school + "\n";
       data_str += "Year: " + camper.year + "\n";
