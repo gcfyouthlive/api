@@ -1,0 +1,13 @@
+#peopleDatabase {
+  font-size: 0.75rem;
+}
+
+#sidebar {
+  margin-top: -1rem;
+  border-right: 1px solid #d0d0d0;
+}
+
+#sidebar .nav {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}

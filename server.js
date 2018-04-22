@@ -5,6 +5,7 @@ const mongo_addr = process.env.MONGO_PORT_27017_TCP_ADDR || "127.0.0.1";
 const mongo_port = process.env.MONGO_PORT_27017_TCP_PORT || "27017";
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 const Person = require('./api/models/person');
 const Camper = require('./api/models/camper');
 const Meetup = require('./api/models/meetup');
@@ -26,6 +27,10 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+// Point static path to dist
+app.use(express.static(path.join(__dirname, 'dist')));
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://' + mongo_addr + ':' + mongo_port + '/youthlivedb', () => {
@@ -87,6 +92,11 @@ app.use('/auth', auth);
 app.use('/campers', campers)
 // app.use('/meetups', meetups)
 // app.use('/reports', reports)
+
+// Catch all other routes and return the index file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
 
 app.listen(port);
 

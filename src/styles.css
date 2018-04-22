@@ -1,0 +1,9 @@
+/* You can add global styles to this file, and also import other style files */
+a {
+  outline: none
+}
+
+body {
+  font-family: "Open Sans",Helvetica,Arial,sans-serif;
+  /* font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif */
+}
