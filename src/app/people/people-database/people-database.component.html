@@ -40,6 +40,7 @@
             <th class="py-1 px-2">Nickname</th>
             <th class="py-1 px-2">Birthdate</th>
             <th class="py-1 px-2">Sex</th>
+            <th class="py-1 px-2">School</th>
           </tr>
         </thead>
         <tbody>
@@ -50,6 +51,7 @@
             <td class="py-1 px-2"><a routerLink="/view/{{person._id}}">{{person.nickname}}</a></td>
             <td class="py-1 px-2">{{person.birthdate | date : "yyyy-MM-dd"}}</td>
             <td class="py-1 px-2">{{person.gender}}</td>
+            <td class="py-1 px-2">{{person.school}}</td>
           </tr>
         </tbody>
       </table>
