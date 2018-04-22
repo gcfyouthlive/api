@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 const request = require('request');
 
 exports.get_all_campers = function(req, res) {
-  Camper.find({}).sort({first_name: 1, last_name: 1}).exec(function(err, camper) {
+  Camper.find({"paid":true}).sort({first_name: 1, last_name: 1}).exec(function(err, camper) {
     if (err) res.send(err)
     res.json(camper)
   })
