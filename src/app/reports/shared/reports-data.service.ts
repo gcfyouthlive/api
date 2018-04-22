@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { AgeDemographicStats, AgeDemographicStatsD3 } from './age-demographic-stats.model';
 
+const credentials = require('../../../../config/credentials.json');
+
 @Injectable()
 export class ReportsDataService {
 
-  private peopleUrl = 'http://localhost:3000/people';
+  private peopleUrl = credentials.API_URL + '/campers';
 
   constructor(
     private http: HttpClient

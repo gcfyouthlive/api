@@ -4,10 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Person } from './person.model';
 import { DatePipe } from '@angular/common';
+const credentials = require('../../../../config/credentials.json');
 
 @Injectable()
 export class PersonDetailsService {
-  private peopleUrl = 'https://api.gcfyouthlive.com/campers';
+  private peopleUrl = credentials.API_URL + '/campers';
   private person = new BehaviorSubject<Person>(new Person);
 
   constructor(

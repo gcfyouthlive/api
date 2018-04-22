@@ -3,10 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Person } from './person.model';
+const credentials = require('../../../../config/credentials.json');
 
 @Injectable()
 export class DatabaseTableService {
-  private peopleUrl = 'https://api.gcfyouthlive.com/campers';
+  private peopleUrl = credentials.API_URL + '/campers';
   private peopleList = new BehaviorSubject<Person[]>([]);
 
   constructor(
