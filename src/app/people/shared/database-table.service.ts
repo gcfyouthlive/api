@@ -9,18 +9,20 @@ const credentials = require('../../../../config/credentials.json');
 export class DatabaseTableService {
   private peopleUrl = credentials.API_URL + '/campers';
   private peopleList = new BehaviorSubject<Person[]>([]);
+  private currentQuery = "";
 
   constructor(
     private http: HttpClient
   ) { }
 
   refreshTable(): void {
-    this.http.get<Person[]>(this.peopleUrl).subscribe(people => {
+    this.http.get<Person[]>(this.peopleUrl + this.currentQuery).subscribe(people => {
       this.peopleList.next(people);
     });
   }
 
-  getPeopleList(): Observable<Person[]> {
+  getPeopleList(query): Observable<Person[]> {
+    if (this.currentQuery != query) this.currentQuery = query;
     return this.peopleList.asObservable();
   }
 

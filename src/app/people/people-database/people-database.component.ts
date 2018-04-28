@@ -15,10 +15,13 @@ import { Observable } from 'rxjs/Observable';
 export class PeopleDatabaseComponent implements OnInit {
 
   databases = [
-    {id: 0, name:'All Youth'},
-    {id: 1, name:'Congregation'},
-    {id: 2, name:'High School Camp'},
-    {id: 3, name:'College Camp'}
+    {id: 0, name:'All Signups', query:""},
+    {id: 1, name:'All HS Signups', query:"?camp=HS"},
+    {id: 2, name:'HS Camp Paid', query:"?camp=HS&paid=true"},
+    {id: 3, name:'HS Camp Unpaid', query:"?camp=HS&paid=false"},
+    {id: 4, name:'All College Signups', query:"?camp=Col"},
+    {id: 5, name:'College Camp Paid', query:"?camp=Col&paid=true"},
+    {id: 6, name:'College Camp Unpaid', query:"?camp=Col&paid=false"}
   ];
   activeDatabase = 0;
   bsModalRef: BsModalRef;
@@ -51,13 +54,19 @@ export class PeopleDatabaseComponent implements OnInit {
     this.databaseTableService.refreshTable();
   }
 
+  showDatabase(database_id) {
+    this.activeDatabase = database_id;
+    this.peopleList$ = this.databaseTableService.getPeopleList(this.databases[database_id].query);
+    this.refreshTable();
+  }
+
   selectAllPeople(): void {
     // this.
   }
 
   ngOnInit() {
     this.refreshTable();
-    this.peopleList$ = this.databaseTableService.getPeopleList();
+    this.peopleList$ = this.databaseTableService.getPeopleList("");
   }
 
 }
