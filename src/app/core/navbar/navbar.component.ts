@@ -7,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
   mainItems = [
-    {routerLink: "/dashboard", iconClass: "", name: "Dashboard"},
+    // {routerLink: "/dashboard", iconClass: "", name: "Dashboard"},
     {routerLink: "/people", iconClass: "", name: "People"},
-    {routerLink: "/reports", iconClass: "", name: "Reports"}
+    // {routerLink: "/reports", iconClass: "", name: "Reports"}
   ]
 
   constructor() { }

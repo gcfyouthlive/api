@@ -3,7 +3,7 @@
     <div id="sidebar" class="d-none d-md-inline col-md-3 col-lg-2 pt-2">
       <div class="m-0 py-2 px-0 font-weight-light d-flex">
         <div class="mr-auto align-bottom" style="font-size: 1rem">Lists</div>
-        <div class="btn btn-sm btn-outline-dark" style="size:0.75rem"><i class="fa fa-plus"></i> Add List</div>
+        <!-- <div class="btn btn-sm btn-outline-dark" style="size:0.75rem"><i class="fa fa-plus"></i> Add List</div> -->
       </div>
       <ul class="nav nav-pills nav-fill flex-column" *ngFor="let database of databases">
         <li class="nav-item text-left">
@@ -12,7 +12,7 @@
       </ul>
     </div>
     <div class="col-md-9 col-lg-10">
-      <h2 class="card-title">All Youth</h2>
+      <h2 class="card-title">{{databases[activeDatabase].name}}</h2>
       <div class="d-flex mb-2">
         <div class="input-group input-group-sm mr-auto d-flex">
           <input class="form-control" placeholder="Search" />
