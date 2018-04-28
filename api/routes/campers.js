@@ -23,7 +23,7 @@ router.use(function timeLog(req, res, next) {
 // Middleware
 
 router.route('/')
-  .get(isAuthenticated, campers.get_all_campers)
+  .get(isAuthenticated, campers.get_campers)
   .post(campers.add_a_camper);
 router.route('/:camperId')
   .get(isAuthenticated, campers.view_a_camper)

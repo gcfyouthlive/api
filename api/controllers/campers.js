@@ -6,8 +6,8 @@ var mongoose = require('mongoose'),
     emailAdapter = require('../../adapters/emailer');
 const request = require('request');
 
-exports.get_all_campers = function(req, res) {
-  Camper.find({"paid":true}).sort({first_name: 1, last_name: 1}).exec(function(err, camper) {
+exports.get_campers = function(req, res) {
+  Camper.find(req.query).sort({first_name: 1, last_name: 1}).exec(function(err, camper) {
     if (err) res.send(err)
     res.json(camper)
   })

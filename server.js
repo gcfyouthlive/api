@@ -1,5 +1,4 @@
 const express = require('express');
-const app = express();
 const port = process.env.PORT || "3000";
 const mongo_addr = process.env.MONGO_PORT_27017_TCP_ADDR || "127.0.0.1";
 const mongo_port = process.env.MONGO_PORT_27017_TCP_PORT || "27017";
@@ -20,6 +19,8 @@ const people = require('./api/routes/people')
 const campers = require('./api/routes/campers')
 const meetups = require('./api/routes/meetups')
 const reports = require('./api/routes/reports')
+
+let app = express();
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -92,6 +93,20 @@ app.use('/auth', auth);
 app.use('/campers', campers)
 // app.use('/meetups', meetups)
 // app.use('/reports', reports)
+
+const isAuthenticated = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    // if user is not logged in
+    req.session.lastUrl = req.originalUrl;
+    res.redirect('/auth/login');
+  } else {
+    console.log(credentials.AUTHORIZED_IDS.indexOf(req.user.googleId));
+    if (credentials.AUTHORIZED_IDS.indexOf(req.user.googleId) >= 0) next();
+    else res.redirect('/auth/login');
+  }
+};
+
+app.use(isAuthenticated);
 
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
