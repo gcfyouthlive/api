@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { PeopleModule } from './people/people.module';
-import { ReportsModule } from './reports/reports.module';
+// import { ReportsModule } from './reports/reports.module';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 
@@ -20,7 +20,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     AppRoutingModule,
     CoreModule,
     PeopleModule,
-    ReportsModule
+    // ReportsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
