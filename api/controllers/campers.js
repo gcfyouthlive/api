@@ -19,12 +19,21 @@ exports.add_a_camper = function(req, res) {
     if (err) res.send(err)
     else {
       generator.generatePDF(camper).then(function (campRes) {
-        var emailParams = {
-          recipient: camper.email,
-          subject: 'Your registration to CampLIVE: VERIFIED', //TBD: Perhaps make it Your registration to CampLIVE: VERIFIED is almost complete!
-          text: 'Hello, ' + camper.nickname + ' ' + camper.last_name + '!!  \n\nThank you for signing up for CAMP LIVE: VERIFIED (High School Camp)! There are a few more steps to complete your registration for camp. Please print the waiver attached to this email and have your parent/legal guardian sign it. This is a requirement to participate in camp. You can submit your signed waiver at our booth at the GCF lobby along with your camp payment. \n\nOur booth is open on Saturdays at the Youth Service and Sundays in between Sundary Services. Early bird - P2,000 until April 29, 2018 Regular - P2,500 until May 13, 2018. Take note that payment must be made to secure your slot in camp. \n\nIf you have any questions about the registration process, you may reply to this email or contact us at 09175327741. \n\nSee you soon! :)',
-          filepath: campRes.filepath
-        }
+        var emailParams;
+        if (camper.camp == "HS")
+          emailParams = {
+            recipient: camper.email,
+            subject: 'Your registration to CampLIVE: VERIFIED (HS Camp)', //TBD: Perhaps make it Your registration to CampLIVE: VERIFIED is almost complete!
+            text: 'Hello, ' + camper.nickname + ' ' + camper.last_name + '!!  \n\nThank you for signing up for CAMP LIVE: VERIFIED (High School Camp)! There are a few more steps to complete your registration for camp. Please print the waiver attached to this email and have your parent/legal guardian sign it. This is a requirement to participate in camp. You can submit your signed waiver at our booth at the GCF lobby along with your camp payment. \n\nOur booth is open on Saturdays at the Youth Service and Sundays in between Sundary Services. Early bird - P2,000 until April 29, 2018 Regular - P2,500 until May 13, 2018. Take note that payment must be made to secure your slot in camp. \n\nIf you have any questions about the registration process, you may reply to this email or contact us at 09175327741. \n\nSee you soon! :)',
+            filepath: campRes.filepath
+          };
+        else
+          emailParams = {
+            recipient: camper.email,
+            subject: 'Your registration to CampLIVE: VERIFIED (College Camp)', //TBD: Perhaps make it Your registration to CampLIVE: VERIFIED is almost complete!
+            text: 'Hello, ' + camper.nickname + ' ' + camper.last_name + '!!  \n\nThank you for signing up for CAMP LIVE: VERIFIED (College Camp)! There are a few more steps to complete your registration for camp. Please print the waiver attached to this email and have your parent/legal guardian sign it. This is a requirement to participate in camp. You can submit your signed waiver at our booth at the GCF lobby along with your camp payment. \n\nOur booth is open on Saturdays at the Youth Service and Sundays in between Sundary Services. Early bird - P2,000 until June 17, 2018 Regular - P2,500 until June 31, 2018. Take note that payment must be made to secure your slot in camp. \n\nIf you have any questions about the registration process, you may reply to this email or contact us at 09175327741. \n\nSee you soon! :)',
+            filepath: campRes.filepath
+          };
         emailAdapter.sendEmail(emailParams);
         res.json(camper);
       }).catch(function (err) {
@@ -44,14 +53,23 @@ exports.add_a_camper = function(req, res) {
       data_str += "Mobile no: " + camper.mobileno + "\n";
       data_str += "School: " + camper.school + "\n";
       data_str += "Year: " + camper.year + "\n";
+      data_str += "Course: " + camper.course + "\n";
       data_str += "Facebook ID: " + camper.facebook_id + "\n";
       data_str += "Notes: " + camper.notes + "\n";
 
-      var options = {
-        uri: "https://hooks.slack.com/services/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",
-        method: "POST",
-        json: {"text": data_str, "mrkdwn": true}
-      };
+      var options;
+      if (camper.camp == "HS")
+        options = {
+          uri: "https://hooks.slack.com/services/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",
+          method: "POST",
+          json: {"text": data_str, "mrkdwn": true}
+        };
+      else
+        options = {
+          uri: "https://hooks.slack.com/services/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",
+          method: "POST",
+          json: {"text": data_str, "mrkdwn": true}
+        };
       request(options, function (error, response, body) {
         if (!error && response.statusCode == 200) {
           console.log(body)
