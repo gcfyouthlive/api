@@ -107,14 +107,6 @@ exports.delete_a_camper = function(req, res) {
   })
 }
 
-exports.add_a_discipler = function(req, res) {
-  return null
-}
-
-exports.delete_a_disciple = function(req, res) {
-  return null
-}
-
 exports.get_camper_meetups = function(req, res) {
   DiscipleshipMeetup.find({$or: [{discipler: req.params.camperId}, {disciplee: req.params.camperId}]}, function(err, meetup) {
     if (err) res.send(err)
@@ -217,6 +209,5 @@ exports.get_age_demographic_stats_d3 = function(req, res) {
     if (err) res.send(err)
     console.log(age_stats)
     res.json(age_stats);
-    // res.json(age_stats.map(function(i) {return i}))
   })
 }
