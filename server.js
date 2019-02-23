@@ -87,10 +87,7 @@ app.use(passport.session());
 // set up routes
 app.use('/auth', auth);
 
-// app.use('/people', people)
 app.use('/campers', campers)
-// app.use('/meetups', meetups)
-// app.use('/reports', reports)
 
 const isAuthenticated = (req, res, next) => {
   if (!req.isAuthenticated()) {
