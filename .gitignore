@@ -42,7 +42,11 @@ testem.log
 Thumbs.db
 
 # Generated QR pictures
-/QR
+/qr
 
 # Credentials
-/emailAdapter/credentials.json
+/config/credentials.json
+
+# Generated PDFs
+/pdf
+package-lock.json

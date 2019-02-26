@@ -4,20 +4,30 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "test": "ng test",
+    "start": "nodemon server.js",
+    "ng": "ng",
+    "build": "ng build --prod --named-chunks",
+    "lint": "ng lint",
+    "e2e": "ng e2e"
   },
   "author": "Joshua Dizon",
   "license": "ISC",
   "devDependencies": {
-    "nodemon": "^1.14.11"
+    "@angular/cli": "^1.7.4",
+    "nodemon": "^1.18.10"
   },
   "dependencies": {
-    "cors": "^2.8.4",
+    "body-parser": "^1.18.2",
+    "cookie-session": "^2.0.0-beta.3",
     "express": "^4.16.2",
+    "html-pdf": "^2.2.0",
     "mongoose": "^4.13.7",
     "nodemailer": "^4.4.2",
-    "pdfkit": "^0.8.3",
-    "q": "^1.5.1"
+    "passport": "^0.4.0",
+    "passport-google-oauth20": "^1.0.0",
+    "q": "^1.5.1",
+    "qr-image": "^3.2.0",
+    "request": "^2.88.0"
   }
 }
